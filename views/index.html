@@ -1,126 +1,179 @@
-{% extends 'layout.html' %}
-
-{% block title %}Your Trip{% endblock %}
-
-{% block content %}
+{% extends 'layout.html' %} {% block title %}Your Trip{% endblock %} {% block content %}
 <div id="app" class="clearfix">
-	<div class="map-container col-sm-8 col-lg-9">
-		<div>
-			<div id="map-canvas"></div>
-		</div>
-	</div>
-	<div id="control-panel" class="col-sm-4 col-lg-3 clearfix">
-		<div class="col-xs-6 col-sm-12">
-			<div class="panel panel-default">
-				<div class="panel-body" id="options-panel">
-					<div>
-						<h4>Hotels</h4>
-						<select data-type="hotel" id="hotel-choices">
-							<script>
-								var hotels = {{ hotels | dump | safe }};
-							
-							  hotels.forEach(hotel => {
-								
-							  $('#hotel-choices').append(`<option data-id="${hotel.id}">${hotel.name}</option>`);
-								});
-							</script>
-						</select>
-						<button data-action="add" class="btn btn-primary btn-circle pull-right" id="hotel-button">+</button>
-						<script>
-							 $('#hotel-button').click(() => {
-							  	let selectedHotel = $("#hotel-choices").find(":selected");
-							  });
-						</script>
-					</div>
-					<div>
-						<h4>Restaurants</h4>
-						<select data-type="restaurant" id="restaurant-choices">
-							<script>
-								var restaurants = {{ restaurants | dump | safe }};
-								
-								restaurants.forEach(restaurant => {
-								
-							  $('#restaurant-choices').append(`<option data-id="${restaurant.id}">${restaurant.name}</option>`);
-								});
-							</script>
-						</select>
-						<button data-action="add" class="btn btn-primary btn-circle pull-right" id="restaurant-button">+</button>
-						<script>
-							 $('#restaurant-button').click(() => {
-							  	let selectedResto = $("#restaurant-choices").find(":selected");
-							  });
-						</script>
-					</div>
-					<div>
-						<h4>Activities</h4>
-						<select data-type="activity" id="activity-choices">
-							<script>
-								var activities = {{ activities | dump | safe }};
-								
-								activities.forEach(activity => {
-								
-							  $('#activity-choices').append(`<option data-id="${activity.id}">${activity.name}</option>`);
-								});
-							</script>
-						</select>
-						<button data-action="add" class="btn btn-primary btn-circle pull-right" id="activity-button">+</button>
-						<script>
-							 $('#activity-button').click(() => {
-							  	let selectedActivity = $("#activity-choices").find(":selected");
-							  });
-						</script>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-xs-6 col-sm-12">
-			<h3>
+    <div class="map-container col-sm-8 col-lg-9">
+        <div>
+            <div id="map-canvas"></div>
+        </div>
+    </div>
+    <div id="control-panel" class="col-sm-4 col-lg-3 clearfix">
+        <div class="col-xs-6 col-sm-12">
+            <div class="panel panel-default">
+                <div class="panel-body" id="options-panel">
+                    <div>
+                        <h4>Hotels</h4>
+                        <select data-type="hotel" id="hotel-choices">
+                            <script>
+                            var hotels = {{hotels | dump | safe}};
+
+                            hotels.forEach(hotel => {
+
+                                $('#hotel-choices').append(`<option data-id="${hotel.id}">${hotel.name}</option>`);
+                            });
+                            </script>
+                        </select>
+                        <button data-action="add" class="btn btn-primary btn-circle pull-right" id="hotel-button">+</button>
+                        <script>
+                        var sayHi = "hello";
+                        $('#hotel-button').click(() => {
+                            let selectedHotel = $("#hotel-choices").find(":selected");
+                            $('#chosen-hotel').empty(); 
+                            $('#chosen-hotel').append(selectedHotel);
+                        });
+                        </script>
+                    </div>
+                    <div>
+                        <h4>Restaurants</h4>
+                        <select data-type="restaurant" id="restaurant-choices">
+                            <script>
+                            var restaurants = {{restaurants | dump | safe}};
+
+                            restaurants.forEach(restaurant => {
+
+                                $('#restaurant-choices').append(`<option data-id="${restaurant.id}">${restaurant.name}</option>`);
+                            });
+                            </script>
+                        </select>
+                        <button data-action="add" class="btn btn-primary btn-circle pull-right" id="restaurant-button">+</button>
+                        <script>
+                        var restaurantCount= 0; 
+                        $('#restaurant-button').click(() => {
+                            let selectedResto = $("#restaurant-choices").find(":selected");
+                            if (restaurantCount < 3){
+                            	$('#chosen-restaurant').append(`<span class="title" data-id="${restaurantCount}">${selectedResto.text()}</span>`).append(`<button class="btn btn-xs btn-danger remove btn-circle" id="restaurant-x-button" data-id="${restaurantCount}">x</button>`);
+                            	restaurantCount++;  
+                            }
+                            
+                        });
+
+                 $('#restaurant-x-button').click(()=> {
+                    			alert("THIS:")
+                    			//console.log($(this)); 
+                    			// $(this).prev.empty(); 
+                    			// console.log($(this))
+                    			// $(this).empty(); 
+                    		});
+
+
+
+                        </script>
+                    </div>
+                    <div>
+                        <h4>Activities</h4>
+                        <select data-type="activity" id="activity-choices">
+                            <script>
+                            var activities = {{activities | dump | safe}};
+
+                            activities.forEach(activity => {
+
+                                $('#activity-choices').append(`<option data-id="${activity.id}">${activity.name}</option>`);
+                            });
+                            </script>
+                        </select>
+                        <button data-action="add" class="btn btn-primary btn-circle pull-right" id="activity-button">+</button>
+                        <script>
+                        $('#activity-button').click(() => {
+                            let selectedActivity = $("#activity-choices").find(":selected");
+                        });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-6 col-sm-12">
+            <h3>
 				<span id="day-title">
-					<span>Day 2</span>
+					<span>Day 1</span>
 					<button class="btn btn-xs btn-danger remove btn-circle">x</button>
 				</span>
 			</h3>
-			<div class="panel panel-default">
-				<div class="panel-heading">
-					<div class="day-buttons">
-						<button class="btn btn-circle day-btn">1</button>
-						<!-- <button class="btn btn-circle day-btn current-day">2</button>
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="day-buttons">
+                        <button class="btn btn-circle day-btn">1</button>
+                        <!-- <button class="btn btn-circle day-btn current-day">2</button>
 						<button class="btn btn-circle day-btn">3</button> -->
-						<button class="btn btn-circle day-btn" id="day-add">+</button>
-					</div>
-				</div>
-				<div class="panel-body" id="itinerary">
-					<div>
-						<h4>My Hotel</h4>
-						<ul class="list-group">
-							<div class="itinerary-item">
-								<!-- <span class="title">Andaz Wall Street</span> -->
-								<button class="btn btn-xs btn-danger remove btn-circle">x</button>
-							</div>
-						</ul>
-					</div>
-					<div>
-						<h4>My Restaurants</h4>
-						<ul class="list-group">
-							<div class="itinerary-item">
-								<!-- <span class="title">Bouley</span> -->
-								<button class="btn btn-xs btn-danger remove btn-circle">x</button>
-							</div>
-						</ul>
-					</div>
-					<div>
-						<h4>My Activities</h4>
-						<ul class="list-group">
-							<div class="itinerary-item">
-								<!-- <span class="title">Mahayana Buddhist Temple Association</span> -->
-								<button class="btn btn-xs btn-danger remove btn-circle">x</button>
-							</div>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+                        <button class="btn btn-circle day-btn" id="day-add">+</button>
+                    </div>
+                </div>
+                <div class="panel-body" id="itinerary">
+                    <div>
+                        <h4>My Hotel</h4>
+                        <ul class="list-group">
+                            <div class="itinerary-item">
+                                <span class="title" id="chosen-hotel"></span>
+                              
 
+                          
+                                
+                                <button class="btn btn-xs btn-danger remove btn-circle" id="hotel-x-button">x</button>
+
+                            </div>
+                        </ul>
+                    </div>
+                    <script> 
+                    	$('#hotel-x-button').click(
+                    		function(){
+                    			$('#chosen-hotel').empty()
+                    		}); 
+					</script> 
+
+
+
+                    <div>
+                       <h4>My Restaurants</h4>
+                        <ul class="list-group">
+
+<!--                                                <script> 
+                    	$('.btn btn-xs btn-danger remove btn-circle').click(
+                    		function(){
+                    			console.log("THIS:")
+                    			console.log($(this)); 
+                    			// $(this).prev.empty(); 
+                    			// console.log($(this))
+                    			// $(this).empty(); 
+                    		}); 
+						</script>  -->
+
+
+                            <div class="itinerary-item" id="chosen-restaurant">
+                       
+
+
+
+
+
+
+
+
+                                <!-- <button class="btn btn-xs btn-danger remove btn-circle" id="restaurant-x-button">x</button> -->
+                            </div>
+                        </ul>
+                    </div>
+
+
+
+                    <div>
+                        <h4>My Activities</h4>
+                        <ul class="list-group">
+                            <div class="itinerary-item">
+                                <span class="title"></span>
+                                <button class="btn btn-xs btn-danger remove btn-circle">x</button>
+                            </div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
