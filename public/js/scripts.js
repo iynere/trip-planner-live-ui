@@ -1,5 +1,10 @@
 $(document).ready(function(){
 	var hotelCount = 0
+	var day = 1;
+	
+	var $blankDay = $('#day1').children().clone();
+	
+	
 	$('#hotel-button').click(function(){
 		if (!hotelCount) {
 
@@ -41,8 +46,8 @@ $(document).ready(function(){
 			$('.btn.btn-xs.btn-danger.remove.btn-circle').click(function(){ 
 				restaurantCount--;
 				let restoName = $(this).prev().attr('data-id');
-				markersObj[restoName].setMap(null);
-				delete markersObj[restoName];
+				markersObj[restoName][0].setMap(null);
+				markersObj[restoName] = markersObj[restoName].slice(1)
 				$(this).parent().remove();
 			});
 		}
@@ -61,19 +66,21 @@ $(document).ready(function(){
 		$('.btn.btn-xs.btn-danger.remove.btn-circle').unbind('click'); 
 
 		$('.btn.btn-xs.btn-danger.remove.btn-circle').click(function(){
-			
 			let activityName = $(this).prev().attr('data-id');
-				markersObj[activityName].setMap(null);
-				delete markersObj[activityName];
-			
+				markersObj[activityName][0].setMap(null);
+				markersObj[activityName] = markersObj[activityName].slice(1)
 			$(this).parent().remove(); 
-
+		});
 	});
 
-
-
-});
-
+	$('#day-add').click(function() {	
+		var $nextDay = $('#day1').children().clone().prop('id', 'day2')
+		
+		$('#day1').children().hide();
+		
+		$blankDay.appendTo('#day1');
+	});
+	
 }); 
 
 

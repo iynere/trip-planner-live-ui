@@ -63,11 +63,19 @@ function drawMarker (type, name, coords) {
   var iconURL = iconURLs[type];
   
   if (!Object.keys(markersObj).includes(name)) {
-    var marker = new google.maps.Marker({
+    markersObj[name]= [];
+  }
+  var marker = new google.maps.Marker({
       icon: iconURL,
       position: latLng
     });
-    markersObj[name]= marker;
-    marker.setMap(currentMap);
-  }
+  
+  markersObj[name].push(marker)
+  marker.setMap(currentMap);
 }
+
+/*
+{
+  {resto1: [marker1, marker2]}
+}
+*/
