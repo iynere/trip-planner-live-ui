@@ -17,7 +17,7 @@
 
 							hotels.forEach(hotel => {
 
-								$('#hotel-choices').append(`<option data-id="${hotel.id}">${hotel.name}</option>`);
+								$('#hotel-choices').append(`<option data-id="${hotel.place.location}">${hotel.name}</option>`);
 							});
 							</script>
 						</select>
@@ -39,7 +39,7 @@
 
 							restaurants.forEach(restaurant => {
 
-								$('#restaurant-choices').append(`<option data-id="${restaurant.id}">${restaurant.name}</option>`);
+								$('#restaurant-choices').append(`<option data-id="${restaurant.place.location}">${restaurant.name}</option>`);
 							});
 							</script>
 						</select>
@@ -69,7 +69,7 @@
 
 							activities.forEach(activity => {
 
-								$('#activity-choices').append(`<option data-id="${activity.id}">${activity.name}</option>`);
+								$('#activity-choices').append(`<option data-id="${activity.place.location}">${activity.name}</option>`);
 							});
 							</script>
 						</select>
